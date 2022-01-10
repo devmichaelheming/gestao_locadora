@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Table, PageHeader, Button } from 'antd';
 import { ModalFormulario } from "./Modals";
 
-import { data } from "./data";
+import { clientes } from "./data";
 
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "styles/icons";
 import { Container, ContainerTable } from './styles';
@@ -54,7 +54,7 @@ const Clientes = function () {
       <ContainerTable>
         <Table
           columns={columns}
-          dataSource={data}
+          dataSource={clientes}
         />
       </ContainerTable>
       <ModalFormulario setModal={setModal} action={modal}/>

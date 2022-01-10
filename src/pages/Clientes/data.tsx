@@ -1,4 +1,4 @@
-const data = [
+const clientes = [
   {
     id: 1,
     nome: 'Michael Heming',
@@ -31,4 +31,4 @@ const data = [
   },
 ];
 
-export { data }
+export { clientes }

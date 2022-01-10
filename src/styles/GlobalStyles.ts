@@ -21,6 +21,14 @@ export default createGlobalStyle`
         background-color: #9DA0AA;
         border-radius: 4px;
     }
+
+    .ant-picker-range {
+      width: 100%;
+    }
+
+    .ant-form-item-label > label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
+      display: none;
+    }
   }
 
   .content {

@@ -13,7 +13,6 @@ export const Container = styled.div`
         border: 1px solid rgb(235, 237, 240);
         border-bottom: none;
     }
-
 `;
 
 export const ContainerTable = styled.div`

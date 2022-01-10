@@ -22,21 +22,20 @@ const Home = function () {
       key: 'x',
       render: (key: number) => (
         <div className='group-buttons'>
-          <button className='btn-action' onClick={() => handleEdit(key)}><EditOutlined /></button>
+          <button className='btn-action' onClick={() => handleShowForm(key)}><EditOutlined /></button>
           <button className='btn-action' onClick={() => handleDelete(key)}><DeleteOutlined /></button>
         </div>
       ),
     },
   ];
 
-  function handleDelete(data: number) {
-    console.log(data);
-    alert('deletar');
-  }
-
-  function handleEdit(data: number) {
+  function handleShowForm(data?: number) {
     console.log(data);
     setModal(true);
+  }
+
+  function handleDelete(data: number) {
+    alert('deletar');
   }
 
   return (
@@ -47,7 +46,12 @@ const Home = function () {
         title="Locações"
         subTitle="Informações das locações registradas"
         extra={[
-          <Button type="primary" icon={<PlusOutlined />} size="large">
+          <Button
+            type="primary"
+            onClick={() => handleShowForm()}
+            icon={<PlusOutlined />}
+            size="large"
+          >
             Novo
           </Button>
         ]}
