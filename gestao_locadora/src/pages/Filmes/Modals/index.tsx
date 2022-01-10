@@ -9,7 +9,7 @@ type Props = {
 const ModalFormulario = function ({ action, setModal }: Props){
   return (
     <Modal
-        title="Editar locação"
+        title="Filme"
         centered
         visible={action}
         onOk={() => setModal(false)}

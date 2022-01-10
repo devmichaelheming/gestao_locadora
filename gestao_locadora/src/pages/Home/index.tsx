@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Table, PageHeader, Button } from 'antd';
 import { ModalFormulario } from "./Modals";
 
+import Swal from 'sweetalert2'
+
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "styles/icons";
 import { Container, ContainerTable } from './styles';
 
@@ -49,8 +51,30 @@ const Home = function () {
     setModal(true);
   }
 
-  function handleDelete(data: number) {
-    alert('deletar');
+  function handleDelete(data: any) {
+    const { id } = data;
+    Swal.fire({
+      title: 'Deseja remover esta locação?',
+      text: "Não será possivel recuperar as informações.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result: any) => {
+      if (result.isConfirmed) {
+        api.delete(`/locacao/${id}`).then((res) => {
+          Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+          )
+        }).catch((err) => {
+          console.error(`ops! ocorreu um erro${err}`);
+        });
+        
+      }
+    })
   }
 
   useEffect(() => {

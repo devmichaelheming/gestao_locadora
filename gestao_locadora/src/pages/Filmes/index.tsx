@@ -36,6 +36,11 @@ const Filmes = function () {
     },
   ];
 
+  function handleShowForm(data?: number) {
+    console.log(data);
+    setModal(true);
+  }
+
   function handleDelete(data: number) {
     console.log(data);
     alert('deletar');
@@ -62,7 +67,12 @@ const Filmes = function () {
         title="Filmes"
         subTitle="Informações dos filmes registrados"
         extra={[
-          <Button type="primary" icon={<PlusOutlined />} size="large">
+          <Button
+            type="primary"
+            onClick={() => handleShowForm()}
+            icon={<PlusOutlined />}
+            size="large"
+          >
             Novo
           </Button>
         ]}

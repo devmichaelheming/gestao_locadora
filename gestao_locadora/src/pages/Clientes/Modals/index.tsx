@@ -12,6 +12,7 @@ import Swal from 'sweetalert2'
 import moment from "moment";
 
 import api from "services/api";
+import { ProjectOutlined } from '@ant-design/icons';
 
 type Props = {
   action: boolean

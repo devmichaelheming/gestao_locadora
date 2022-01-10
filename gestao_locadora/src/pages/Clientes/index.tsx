@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Table, PageHeader, Button } from 'antd';
-import { DeleteOutlined, EditOutlined, PlusOutlined } from 'styles/icons';
+import Swal from 'sweetalert2'
 
 import { ModalFormulario } from './Modals';
+
+import { DeleteOutlined, EditOutlined, PlusOutlined } from 'styles/icons';
 
 import { Container, ContainerTable } from './styles';
 
