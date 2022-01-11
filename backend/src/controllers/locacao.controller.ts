@@ -14,7 +14,7 @@ import {
 import { Repository } from 'typeorm';
 import { LocacaoModel } from 'src/models/locacao.model';
 
-@Controller('/locacao')
+@Controller('/locacoes')
 export class LocacaoController {
   constructor(
     @InjectRepository(LocacaoModel) private model: Repository<LocacaoModel>,

@@ -8,8 +8,8 @@ export class FilmeModel {
   @Column({ length: 120 })
   titulo: string;
 
-  @Column({ length: 120 })
-  classificacaoIndicativa: string;
+  @Column('int')
+  classificacaoIndicativa: number;
 
   @Column({ length: 10 })
   lancamento: string;

@@ -14,7 +14,7 @@ import {
 import { Repository } from 'typeorm';
 import { ClienteModel } from 'src/models/cliente.model';
 
-@Controller('/cliente')
+@Controller('/clientes')
 export class ClienteController {
   constructor(
     @InjectRepository(ClienteModel) private model: Repository<ClienteModel>,

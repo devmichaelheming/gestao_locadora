@@ -1,13 +1,13 @@
-import { IsString, MaxLength } from 'class-validator';
+import { IsString, IsInt, Min, MaxLength } from 'class-validator';
 
 export class FilmeSchema {
   @IsString()
   @MaxLength(120)
   titulo: string;
 
-  @IsString()
-  @MaxLength(120)
-  classificacaoIndicativa: string;
+  @IsInt()
+  @Min(1)
+  classificacaoIndicativa: number;
 
   @IsString()
   lancamento: string;

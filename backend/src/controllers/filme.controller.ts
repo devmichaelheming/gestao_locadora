@@ -14,7 +14,7 @@ import {
 import { Repository } from 'typeorm';
 import { FilmeModel } from 'src/models/filme.model';
 
-@Controller('/filme')
+@Controller('/filmes')
 export class FilmeController {
   constructor(
     @InjectRepository(FilmeModel) private model: Repository<FilmeModel>,
