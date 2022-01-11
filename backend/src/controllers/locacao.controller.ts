@@ -22,7 +22,7 @@ export class LocacaoController {
 
   @Get()
   public getAll(): Promise<LocacaoModel[]> {
-    return this.model.find();
+    return this.model.find({ relations: ['cliente', 'filme'] });
   }
 
   @Post()

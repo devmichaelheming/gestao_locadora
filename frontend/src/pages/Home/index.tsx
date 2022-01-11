@@ -8,65 +8,76 @@ import { DeleteOutlined, EditOutlined, PlusOutlined } from "styles/icons";
 import { Container, ContainerTable } from './styles';
 
 import api from "services/api";
-import { FileMarkdownFilled, LeftCircleTwoTone } from '@ant-design/icons';
 
-interface locacoesProps {
+export interface filmesProps {
   id: number;
-  id_cliente: number | string;
-  id_filme: number | string;
+  titulo: string;
+  classificacaoIndicativa: string;
+  lancamento: string;
+}
+export interface clientesProps {
+  id: number;
+  nome: string;
+  cpf: string;
+  data_nascimento: string;
+}
+
+export interface locacoesProps {
+  id: number;
+  cliente: clientesProps;
+  filme: filmesProps;
+  filme_titulo?: string;
+  cliente_nome?: string;
   data_locacao: string;
   data_devolucao: string;
 }
 
-import { clientesProps } from "pages/Clientes";
-import { filmesProps } from "pages/Filmes";
-
 const Home = function () {
   const [modal, setModal] = useState(false);
-  const [clientes, setClientes] = useState<clientesProps[]>([]);
-  const [filmes, setFilmes] = useState<filmesProps[]>([]);
   const [locacoes, setLocacoes] = useState<locacoesProps[]>([]);
+  const [dataEdit, setDataEdit] = useState<locacoesProps | undefined>();
 
   const columns = [
     { title: 'Id', dataIndex: 'id', key: 'id' },
-    { title: 'Cliente', dataIndex: 'cliente', key: 'cliente' },
-    { title: 'Filme', dataIndex: 'filme', key: 'filme' },
+    { title: 'Cliente', dataIndex: 'cliente_nome', key: 'cliente_nome' },
+    { title: 'Filme', dataIndex: 'filme_titulo', key: 'filme_titulo' },
     { title: 'Data de locação', dataIndex: 'data_locacao', key: 'data_locacao' },
     { title: 'Data de devolução', dataIndex: 'data_devolucao', key: 'data_devolucao' },
     {
       title: 'Action',
       dataIndex: '',
       key: 'x',
-      render: (key: number) => (
+      render: (key:number, data : locacoesProps) => (
         <div className='group-buttons'>
-          <button className='btn-action' onClick={() => handleShowForm(key)}><EditOutlined /></button>
+          <button className='btn-action' onClick={() => handleShowForm(data)}><EditOutlined /></button>
           <button className='btn-action' onClick={() => handleDelete(key)}><DeleteOutlined /></button>
         </div>
       ),
     },
   ];
 
-  function handleShowForm(data?: number) {
-    console.log(data);
+  function handleShowForm(data?: locacoesProps) {
+    setDataEdit(data);
     setModal(true);
   }
 
   function handleDelete(data: any) {
     const { id } = data;
     Swal.fire({
-      title: 'Deseja remover esta locação?',
+      title: 'Deseja remover este item?',
       text: "Não será possivel recuperar as informações.",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
+      confirmButtonText: 'Sim',
+      cancelButtonText: 'Não'
     }).then((result: any) => {
       if (result.isConfirmed) {
         api.delete(`/locacao/${id}`).then((res) => {
           Swal.fire(
-            'Deleted!',
-            'Your file has been deleted.',
+            'Removido!',
+            'Você removeu este item.',
             'success'
           )
         }).catch((err) => {
@@ -78,41 +89,14 @@ const Home = function () {
   }
 
   useEffect(() => {
-    api.get('/cliente').then((res) => {
-      setClientes(res.data.data);
-    }).catch((err) => {
-      console.error(`ops! ocorreu um erro${err}`);
-    });
-  }, [clientes]);
-
-  useEffect(() => {
-    api.get('/filme').then((res) => {
-      setFilmes(res.data.data);
-    }).catch((err) => {
-      console.error(`ops! ocorreu um erro${err}`);
-    });
-  }, [filmes]);
-
-  useEffect(() => {
-    api.get('/locacao').then((res) => {
+    api.get('/locacoes').then((res) => {
       let result = res.data.data;
 
-      result.map((item: locacoesProps) => {
-        clientes.map(cliente => {
-          if (item.id_cliente === cliente.id) {
-            item.id_cliente = cliente.nome;
-          }
-        })
+      result.map((item: any) => {
+        item['cliente_nome'] = item.cliente.nome;
+        item['filme_titulo'] = item.filme.titulo;
       })
 
-      result.map((item: locacoesProps) => {
-        filmes.map(filme => {
-          if (item.id_filme === filme.id) {
-            item.id_filme = filme.titulo;
-          }
-        })
-      })
-      
       setLocacoes(result);
     }).catch((err) => {
       console.error(`ops! ocorreu um erro${err}`);
@@ -143,7 +127,7 @@ const Home = function () {
           dataSource={locacoes}
         />
       </ContainerTable>
-      <ModalFormulario setModal={setModal} action={modal}/>
+      <ModalFormulario setModal={setModal} action={modal} dataEdit={dataEdit}/>
     </Container>
   );
 }

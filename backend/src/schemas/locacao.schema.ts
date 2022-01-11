@@ -1,11 +1,13 @@
-import { IsNumber, IsString } from 'class-validator';
+import { IsString, ValidateNested } from 'class-validator';
+import { FilmeModel } from 'src/models/filme.model';
+import { ClienteModel } from 'src/models/cliente.model';
 
 export class LocacaoSchema {
-  @IsNumber()
-  id_cliente: number;
+  @ValidateNested()
+  cliente: ClienteModel;
 
-  @IsNumber()
-  id_filme: number;
+  @ValidateNested()
+  filme: FilmeModel;
 
   @IsString()
   data_locacao: string;

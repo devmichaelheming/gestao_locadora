@@ -14,15 +14,15 @@ const { RangePicker } = DatePicker;
 
 import api from "services/api";
 
-import { clientesProps } from "pages/Clientes";
-import { filmesProps } from "pages/Filmes";
+import { locacoesProps, filmesProps, clientesProps } from "../index";
 
 type Props = {
   action: boolean
   setModal: (action: boolean) => void;
+  dataEdit?: locacoesProps;
 }
 
-const ModalFormulario = function ({ action, setModal }: Props) {
+const ModalFormulario = function ({ action, setModal, dataEdit }: Props) {
   const [form] = Form.useForm();
   const [clientes, setClientes] = useState<clientesProps[]>([]);
   const [filmes, setFilmes] = useState<filmesProps[]>([]);
@@ -33,50 +33,76 @@ const ModalFormulario = function ({ action, setModal }: Props) {
     let date_devolucao = moment(date[1]).format('L');
 
     let data = {
-      id_cliente: cliente,
-      id_filme: filme,
+      cliente: {
+        id: cliente,
+      },
+      filme: {
+        id: filme,
+      },
       data_locacao: date_locacao,
       data_devolucao: date_devolucao
     }
 
-    api.post('/locacao', data).then((res) => {
-      Swal.fire({
-        title: 'Cadastro efetuado com sucesso.',
-        icon: 'success',
-        confirmButtonText: 'Ok'
-      }).then((response) => {
-        if (response.value === true) {
-          setModal(false)
-        }
-      })
-    }).catch((err) => {
-      Swal.fire({
-        title: 'Erro ao concluir a ação.',
-        icon: 'error',
-        confirmButtonText: 'Ok'
-      }).then((response) => {
-        if (response.value === true) {
-          setModal(false)
-        }
-      })
-    });
+    if (dataEdit?.id) {
+      api.put(`/locacoes/${dataEdit.id}`, data).then((res) => {
+        Swal.fire({
+          title: 'Cadastro efetuado com sucesso.',
+          icon: 'success',
+          confirmButtonText: 'Ok'
+        }).then((response) => {
+          if (response.value === true) {
+            setModal(false)
+          }
+        })
+      }).catch((err) => {
+        Swal.fire({
+          title: 'Erro ao concluir a ação.',
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        }).then((response) => {
+          if (response.value === true) {
+            setModal(false)
+          }
+        })
+      });
+    } else {
+      api.post('/locacoes', data).then((res) => {
+        Swal.fire({
+          title: 'Cadastro efetuado com sucesso.',
+          icon: 'success',
+          confirmButtonText: 'Ok'
+        }).then((response) => {
+          if (response.value === true) {
+            setModal(false)
+          }
+        })
+      }).catch((err) => {
+        Swal.fire({
+          title: 'Erro ao concluir a ação.',
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        }).then((response) => {
+          if (response.value === true) {
+            setModal(false)
+          }
+        })
+      });
+    }
   };
 
   useEffect(() => {
-    api.get('/cliente').then((res) => {
+    api.get('/clientes').then((res) => {
       setClientes(res.data.data);
     }).catch((err) => {
       console.error(`ops! ocorreu um erro${err}`);
     });
-  }, [clientes]);
 
-  useEffect(() => {
-    api.get('/filme').then((res) => {
+    api.get('/filmes').then((res) => {
       setFilmes(res.data.data);
     }).catch((err) => {
       console.error(`ops! ocorreu um erro${err}`);
     });
-  }, [clientes]);
+  }, [clientes, filmes]);
 
   return (
     <Modal
@@ -84,7 +110,7 @@ const ModalFormulario = function ({ action, setModal }: Props) {
       centered
       visible={action}
       onCancel={() => setModal(false)}
-      okText="Cadastrar"
+      okText={dataEdit?.id ? "Atualizar" : "Cadastrar"}
       onOk={() => {
         form
           .validateFields()
@@ -105,8 +131,8 @@ const ModalFormulario = function ({ action, setModal }: Props) {
       >
         <Form.Item
           name="cliente"
-          label="Cliente"
-          rules={[{ required: true, message: 'Por favor, selecione um cliente!' }]}
+          label="Clientes"
+          rules={[{ required: true, message: 'Por favor, selecione o cliente!' }]}
         >
           <Select placeholder="selecione o cliente" size="large">
             {
@@ -114,7 +140,7 @@ const ModalFormulario = function ({ action, setModal }: Props) {
                 <Option
                   value={cliente.id}
                   key={cliente.id}
-                  size="small"
+                  selected
                 >
                   {cliente.nome}
                 </Option>
@@ -125,8 +151,8 @@ const ModalFormulario = function ({ action, setModal }: Props) {
 
         <Form.Item
           name="filme"
-          label="Filme"
-          rules={[{ required: true, message: 'Por favor, selecione um filme!' }]}
+          label="Filmes"
+          rules={[{ required: true, message: 'Por favor, selecione o filme!' }]}
         >
           <Select placeholder="selecione um filme" size="large">
             {
@@ -134,7 +160,6 @@ const ModalFormulario = function ({ action, setModal }: Props) {
                 <Option
                   value={filme.id}
                   key={filme.id}
-                  size="small"
                 >
                   {filme.titulo}
                 </Option>
@@ -148,7 +173,7 @@ const ModalFormulario = function ({ action, setModal }: Props) {
           label="Período de locação"
           rules={[{ required: true, message: 'Por favor, selecione o período de locação!' }]}
         >
-          <DatePicker.RangePicker size="small"/>
+          <DatePicker.RangePicker size="large"/>
         </Form.Item>
       </Form>
     </Modal>

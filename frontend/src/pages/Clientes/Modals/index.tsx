@@ -12,7 +12,6 @@ import Swal from 'sweetalert2'
 import moment from "moment";
 
 import api from "services/api";
-import { ProjectOutlined } from '@ant-design/icons';
 
 type Props = {
   action: boolean
@@ -32,7 +31,7 @@ const ModalFormulario = function ({ action, setModal }: Props) {
       data_nascimento: data_nascimento,
     }
 
-    api.post('/cliente', data).then((res) => {
+    api.post('/clientes', data).then((res) => {
       Swal.fire({
         title: 'Cadastro efetuado com sucesso.',
         icon: 'success',
@@ -85,7 +84,7 @@ const ModalFormulario = function ({ action, setModal }: Props) {
           label="Nome"
           rules={[{ required: true, message: 'Por favor, insira o nome do cliente!' }]}
         >
-          <Input />
+          <Input size="large"/>
         </Form.Item>
 
         <Form.Item
@@ -93,7 +92,7 @@ const ModalFormulario = function ({ action, setModal }: Props) {
           label="Cpf"
           rules={[{ required: true, message: 'Por favor, insira o cpf do cliente!' }]}
         >
-          <MaskedInput minLength={10} mask="111.111.111-11"/>
+          <MaskedInput minLength={10} mask="111.111.111-11" size="large"/>
         </Form.Item>
 
         <Form.Item
@@ -101,7 +100,7 @@ const ModalFormulario = function ({ action, setModal }: Props) {
           label="Data de nascimento"
           rules={[{ required: true, message: 'Por favor, selecione a data de nascimento!' }]}
         >
-          <DatePicker />
+          <DatePicker size="large"/>
         </Form.Item>
       </Form>
     </Modal>

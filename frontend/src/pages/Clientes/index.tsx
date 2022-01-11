@@ -52,9 +52,31 @@ const Clientes = function () {
     setModal(true);
   }
 
-  function handleDelete(data: number) {
-    console.log(data);
-    alert('deletar');
+  function handleDelete(data: any) {
+    const { id } = data;
+    Swal.fire({
+      title: 'Deseja remover este item?',
+      text: "Não será possivel recuperar as informações.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sim',
+      cancelButtonText: 'Não'
+    }).then((result: any) => {
+      if (result.isConfirmed) {
+        api.delete(`/cliente/${id}`).then((res) => {
+          Swal.fire(
+            'Removido!',
+            'Você removeu este item.',
+            'success'
+          )
+        }).catch((err) => {
+          console.error(`ops! ocorreu um erro${err}`);
+        });
+        
+      }
+    })
   }
 
   function handleEdit(data: number) {
@@ -63,7 +85,7 @@ const Clientes = function () {
   }
 
   useEffect(() => {
-    api.get('/cliente').then((res) => {
+    api.get('/clientes').then((res) => {
       setClientes(res.data.data);
     }).catch((err) => {
       console.error(`ops! ocorreu um erro${err}`);

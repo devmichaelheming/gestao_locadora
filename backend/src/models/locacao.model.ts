@@ -1,15 +1,25 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { FilmeModel } from './filme.model';
+import { ClienteModel } from './cliente.model';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
 
 @Entity()
 export class LocacaoModel {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('int')
-  id_cliente: number;
+  @OneToOne(() => ClienteModel)
+  @JoinColumn({ name: 'cliente_id', referencedColumnName: 'id' })
+  cliente: ClienteModel;
 
-  @Column('int')
-  id_filme: number;
+  @OneToOne(() => FilmeModel)
+  @JoinColumn({ name: 'filme_id', referencedColumnName: 'id' })
+  filme: FilmeModel;
 
   @Column({ length: 10 })
   data_locacao: string;
