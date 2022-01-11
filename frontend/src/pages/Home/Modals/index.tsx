@@ -108,10 +108,16 @@ const ModalFormulario = function ({ action, setModal }: Props) {
           label="Cliente"
           rules={[{ required: true, message: 'Por favor, selecione um cliente!' }]}
         >
-          <Select placeholder="selecione o cliente">
+          <Select placeholder="selecione o cliente" size="large">
             {
               clientes.map(cliente => (
-                <Option value={cliente.id} key={cliente.id}>{cliente.nome}</Option>
+                <Option
+                  value={cliente.id}
+                  key={cliente.id}
+                  size="small"
+                >
+                  {cliente.nome}
+                </Option>
               ))
             }
           </Select>
@@ -122,10 +128,16 @@ const ModalFormulario = function ({ action, setModal }: Props) {
           label="Filme"
           rules={[{ required: true, message: 'Por favor, selecione um filme!' }]}
         >
-          <Select placeholder="selecione um filme">
+          <Select placeholder="selecione um filme" size="large">
             {
               filmes.map(filme => (
-                <Option value={filme.id} key={filme.id}>{filme.titulo}</Option>
+                <Option
+                  value={filme.id}
+                  key={filme.id}
+                  size="small"
+                >
+                  {filme.titulo}
+                </Option>
               ))
             }
           </Select>
@@ -136,7 +148,7 @@ const ModalFormulario = function ({ action, setModal }: Props) {
           label="Período de locação"
           rules={[{ required: true, message: 'Por favor, selecione o período de locação!' }]}
         >
-          <DatePicker.RangePicker />
+          <DatePicker.RangePicker size="small"/>
         </Form.Item>
       </Form>
     </Modal>
