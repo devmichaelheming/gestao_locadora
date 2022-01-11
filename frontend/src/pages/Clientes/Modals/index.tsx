@@ -6,9 +6,7 @@ import {
   Input
 } from 'antd';
 import MaskedInput from 'antd-mask-input'
-
 import Swal from 'sweetalert2'
-
 import moment from "moment";
 
 import api from "services/api";

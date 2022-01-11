@@ -65,7 +65,7 @@ const Clientes = function () {
       cancelButtonText: 'Não'
     }).then((result: any) => {
       if (result.isConfirmed) {
-        api.delete(`/cliente/${id}`).then((res) => {
+        api.delete(`/clientes/${id}`).then((res) => {
           Swal.fire(
             'Removido!',
             'Você removeu este item.',

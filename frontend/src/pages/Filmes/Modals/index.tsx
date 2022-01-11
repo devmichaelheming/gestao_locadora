@@ -3,11 +3,10 @@ import {
   Modal,
   Form,
   DatePicker,
-  Input
+  Input,
 } from 'antd';
-
+import MaskedInput from 'antd-mask-input'
 import Swal from 'sweetalert2'
-
 import moment from "moment";
 
 import api from "services/api";
@@ -91,7 +90,7 @@ const ModalFormulario = function ({ action, setModal }: Props) {
           label="Classificação indicativa"
           rules={[{ required: true, message: 'Por favor, insira a classificação do filme!' }]}
         >
-          <Input size="large" />
+          <MaskedInput maxLength={2} mask="11" size="large"/>
         </Form.Item>
 
         <Form.Item

@@ -12,7 +12,7 @@ import api from "services/api";
 export interface filmesProps {
   id: number;
   titulo: string;
-  classificacaoIndicativa: string;
+  classificacaoIndicativa: number;
   lancamento: string;
 }
 export interface clientesProps {
@@ -74,7 +74,7 @@ const Home = function () {
       cancelButtonText: 'Não'
     }).then((result: any) => {
       if (result.isConfirmed) {
-        api.delete(`/locacao/${id}`).then((res) => {
+        api.delete(`/locacoes/${id}`).then((res) => {
           Swal.fire(
             'Removido!',
             'Você removeu este item.',
