@@ -48,11 +48,10 @@ const Clientes = function () {
   ];
 
   function handleShowForm(data?: number) {
-    console.log(data);
     setModal(true);
   }
 
-  function handleDelete(data: any) {
+  const handleDelete = (data: any) => {
     const { id } = data;
     Swal.fire({
       title: 'Deseja remover este item?',
@@ -79,8 +78,7 @@ const Clientes = function () {
     })
   }
 
-  function handleEdit(data: number) {
-    console.log(data);
+  const handleEdit = (data: number) => {
     setModal(true);
   }
 

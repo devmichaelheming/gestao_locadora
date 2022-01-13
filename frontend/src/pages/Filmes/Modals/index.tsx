@@ -16,17 +16,26 @@ type Props = {
   setModal: (action: boolean) => void;
 }
 
+const dateFormatList = 'DD/MM/YYYY';
+
 const ModalFormulario = function ({ action, setModal }: Props) {
   const [form] = Form.useForm();
 
   const onCreate = (values: any) => {
     const { titulo, classificacaoIndicativa, lancamento } = values;
-    let data_lancamento = moment(lancamento).format('L');
+    let momentDate = moment(lancamento).format();
+
+    let splitMoment = momentDate.split('T');
+    let splitDate = splitMoment[0].split('-');
+
+    let ano = splitDate[0];
+    let mes = splitDate[1];
+    let dia = splitDate[2];
 
     let data = {
       titulo: titulo,
-      classificacaoIndicativa: classificacaoIndicativa,
-      lancamento: data_lancamento,
+      classificacaoIndicativa: parseInt(classificacaoIndicativa),
+      lancamento: `${dia}/${mes}/${ano}`,
     }
 
     api.post('/filmes', data).then((res) => {
@@ -98,7 +107,7 @@ const ModalFormulario = function ({ action, setModal }: Props) {
           label="Data de lançamento"
           rules={[{ required: true, message: 'Por favor, selecione a data de lançamento!' }]}
         >
-          <DatePicker size="large" />
+          <DatePicker size="large" format={dateFormatList} />
         </Form.Item>
       </Form>
     </Modal>

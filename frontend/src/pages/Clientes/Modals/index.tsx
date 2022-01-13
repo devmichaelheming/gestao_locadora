@@ -16,17 +16,26 @@ type Props = {
   setModal: (action: boolean) => void;
 }
 
+const dateFormatList = 'DD/MM/YYYY';
+
 const ModalFormulario = function ({ action, setModal }: Props) {
   const [form] = Form.useForm();
 
   const onCreate = (values: any) => {
     const { nome, cpf, date } = values;
-    let data_nascimento = moment(date).format('L');
+    let momentDate = moment(date).format();
+
+    let splitMoment = momentDate.split('T');
+    let splitDate = splitMoment[0].split('-');
+
+    let ano = splitDate[0];
+    let mes = splitDate[1];
+    let dia = splitDate[2];
 
     let data = {
       nome: nome,
       cpf: cpf,
-      data_nascimento: data_nascimento,
+      data_nascimento: `${dia}/${mes}/${ano}`,
     }
 
     api.post('/clientes', data).then((res) => {
@@ -98,7 +107,7 @@ const ModalFormulario = function ({ action, setModal }: Props) {
           label="Data de nascimento"
           rules={[{ required: true, message: 'Por favor, selecione a data de nascimento!' }]}
         >
-          <DatePicker size="large"/>
+          <DatePicker size="large" format={dateFormatList}/>
         </Form.Item>
       </Form>
     </Modal>

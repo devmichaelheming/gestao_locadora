@@ -39,7 +39,6 @@ const Filmes = function () {
   ];
 
   function handleShowForm(data?: number) {
-    console.log(data);
     setModal(true);
   }
 
@@ -71,7 +70,6 @@ const Filmes = function () {
   }
 
   function handleEdit(data: number) {
-    console.log(data);
     setModal(true);
   }
 
